@@ -6,7 +6,7 @@ $intNum = 10;
 $strNum = '10';
 
 if ($intNum == $strNum) {
-    echo 'Variables have the same value', PHP_EOL;
+    echo 'Variables have the same value' . PHP_EOL;
 }
 
 if ($intNum === $strNum) {

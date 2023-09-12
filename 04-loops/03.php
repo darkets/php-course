@@ -7,7 +7,7 @@ $x = 1;
 
 while ($x < 10) {
     $x++;
-    echo 'codelex', PHP_EOL;
+    echo 'codelex' . PHP_EOL;
 }
 
 // Output
