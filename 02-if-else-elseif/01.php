@@ -15,4 +15,3 @@ if ($intNum === $strNum) {
 
 // Output
 // Variables have the same value
-// Variables do not have the same type
