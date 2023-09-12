@@ -3,30 +3,32 @@
 // Create an associative array with objects of multiple persons.
 // Each person should have a name, surname, age and birthday. Using loop (by your choice) print out every person's personal data.
 
+class Person {
+    protected $name;
+    protected $surname;
+    protected $age;
+    protected $dob;
+
+    public function __construct($name, $surname, $age, $dob) {
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->age = $age;
+        $this->dob = $dob;
+    }
+
+    public function getPersonalInfo() {
+        return "$this->name $this->surname, Age: $this->age, DOB: $this->dob";
+    }
+}
+
 $personList = [
-    'firstPerson' => [
-        'name' => 'Max',
-        'surname' => 'Verstappen',
-        'age' => 25,
-        'dob' => '30.09.1997'
-    ],
-    'secondPerson' => [
-        'name' => 'Jane',
-        'surname' => 'Doe',
-        'age' => 21,
-        'dob' => '18.02.2002'
-    ],
-    'thirdPerson' => [
-        'name' => 'John',
-        'surname' => 'Deere',
-        'age' => 54,
-        'dob' => '19.11.1968'
-    ]
+    'firstPerson' => new Person('Max', 'Verstappen', 25, '30.09.1997'),
+    'secondPerson' => new Person('Jane', 'Doe', 21, '18.02.2002'),
+    'thirdPerson' => new Person('John', 'Deere', 54, '19.11.1968'),
 ];
 
 foreach($personList as $person) {
-    $personInfo = "{$person['name']} {$person['surname']}, Age: {$person['age']}, DOB: {$person['dob']}";
-    echo $personInfo, PHP_EOL;
+    echo $person->getPersonalInfo() . PHP_EOL;
 }
 
 // Output
