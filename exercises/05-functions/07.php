@@ -39,8 +39,8 @@ $weapons = [
 
 $person = new stdClass();
 $person->name = 'John';
-$person->money = 8611;
-$person->license = 'rocket';
+$person->money = 8613;
+$person->licenses = ['rocket', 'military'];
 
 foreach($weapons as $weapon) {
     $canBuy = canBuyWeapon($person, $weapon);
@@ -50,15 +50,16 @@ foreach($weapons as $weapon) {
 }
 
 function canBuyWeapon(stdClass $person, Weapon $weapon): bool {
-    $personLicense = $person->license;
+    $personLicenses = $person->licenses;
+    $personMoney = $person->money;
     $neededLicense = $weapon->getNeededLicense();
 
-    if ($personLicense === $neededLicense) {
-        return true;
-    }
+    $isPermitted = in_array($neededLicense, $personLicenses);
+    $hasMoney = $personMoney > $weapon->getPrice();
 
-    return false;
+    return $isPermitted && $hasMoney;
 }
 
 // Output
 // You can buy a Rocket Launcher
+// You can buy a M4A1
