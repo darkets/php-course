@@ -4,13 +4,13 @@
 //     “Even Number” otherwise. The program shall always print “bye!” before exiting.
 
 function CheckOddEven(int $number): string {
-    if ($number % 2 === 0) {
-        return 'Even Number';
-    }
-
-    return 'Odd Number';
+    return $number % 2 === 0 ? 'Even Number' : 'Odd Number';
 }
 
 echo CheckOddEven(618902);
 
 echo PHP_EOL . 'bye!';
+
+// Output
+// Even Number
+// bye!

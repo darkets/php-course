@@ -6,11 +6,7 @@ function diff(int $x, int $y): bool {
     $addedVal = $x + $y;
     $subtractVal = $x - $y;
 
-    if ($x === 15 || $y === 15 || $addedVal === 15 || $subtractVal === 15) {
-        return true;
-    }
-
-    return false;
+    return ($x === 15 || $y === 15 || $addedVal === 15 || $subtractVal === 15);
 }
 
 echo diff(1, 14);

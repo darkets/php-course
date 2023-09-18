@@ -18,8 +18,8 @@ $shippingCosts = [
 ];
 
 function isOverWeight(float $fruitWeight): bool {
-    $weight = 10; // Kilograms
-    return $fruitWeight> $weight;
+    $maxWeight = 10; // Kilograms
+    return $fruitWeight > $maxWeight;
 }
 
 foreach($fruits as $fruit => $data) {
@@ -27,7 +27,7 @@ foreach($fruits as $fruit => $data) {
     $overWeight = isOverWeight($data['weight']);
     $shippingCost = $overWeight ? $shippingCosts['overTenKg'] : $shippingCosts['underTenKg'];
 
-    echo "Fruit: $fruit, Weight: $weight kg, Shipping Cost: $shippingCost". PHP_EOL;
+    echo "Fruit: $fruit, Weight: $weight kg, Shipping Cost: $shippingCost" . PHP_EOL;
 }
 
 // Output

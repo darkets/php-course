@@ -13,3 +13,4 @@ for ($i = 1; $i <= $number; $i++) {
 echo "Product of integers 1 to $number is $product";
 
 // Output
+// Product of integers 1 to 10 is 3628800

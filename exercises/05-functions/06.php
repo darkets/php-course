@@ -11,14 +11,16 @@ $array = [1, 39, 666, 0.98, 'Hello'];
 for ($i = 0; $i < count($array); $i++) {
     $currValue = $array[$i];
 
-    if (is_float($currValue)) {
-        echo doubleNum($currValue);
+    if (is_int($currValue)) {
+        echo doubleNum($currValue) . PHP_EOL;
     }
 }
 
-function doubleNum(float $number): float {
+function doubleNum(int $number): int {
     return $number * 2;
 }
 
 // Output
-// 1.96
+// 2
+// 78
+// 1332

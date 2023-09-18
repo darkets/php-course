@@ -7,13 +7,12 @@
 // The sum of 1 to 100 is 5050
 // The average is 50.5
 
+
 $lowerBound = 1;
 $upperBound = 100;
 
-$sum = 0;
-for ($i = $lowerBound; $i <= $upperBound; $i++) {
-    $sum+= $i;
-}
+$numbers = range($lowerBound, $upperBound);
+$sum = array_sum($numbers);
 
 // sum of values / number of values
 $average = $sum / ($upperBound - $lowerBound + 1);

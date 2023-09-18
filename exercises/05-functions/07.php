@@ -31,16 +31,16 @@ class Weapon {
 }
 
 $weapons = [
-    new Weapon('Glock19', 1200, 'standard'),
-    new Weapon('Glock18', 1100, 'standard'),
-    new Weapon('Rocket Launcher', 5400, 'rocket'),
-    new Weapon('M4A1', 3900, 'military'),
+    new Weapon('Glock19', 1200, 'a'),
+    new Weapon('Glock18', 1100, 'a'),
+    new Weapon('Rocket Launcher', 5400, 'd'),
+    new Weapon('M4A1', 3900, 'c'),
 ];
 
 $person = new stdClass();
 $person->name = 'John';
 $person->money = 8613;
-$person->licenses = ['rocket', 'military'];
+$person->licenses = ['c', 'd'];
 
 foreach($weapons as $weapon) {
     $canBuy = canBuyWeapon($person, $weapon);
