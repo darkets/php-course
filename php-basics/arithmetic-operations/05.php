@@ -16,6 +16,7 @@ while ($guesses > 0) {
         echo 'Too low' . PHP_EOL;
     } else {
         echo 'You won!';
+        break;
     }
 
     $guesses--;
