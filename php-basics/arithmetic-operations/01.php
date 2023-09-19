@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // Write a program to accept two integers and return true if the either one is 15 or if their sum or difference is 15.
 
