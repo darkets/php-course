@@ -3,7 +3,7 @@
 function circleArea(float $radius): string
 {
     if ($radius <= 0) {
-        return 'Error: Negative radius provided' . PHP_EOL;
+        die('Error: Positive value must be provided to calculate circle area!');
     }
     return number_format(M_PI * $radius * 2, 2);
 }
@@ -11,7 +11,7 @@ function circleArea(float $radius): string
 function rectangleArea(float $length, float $width): string
 {
     if ($length <= 0 || $width <= 0) {
-        return 'Error: Negative length or width provided';
+        die('Error: Positive values must be provided to calculate rectangle area!');
     }
     return number_format($length * $width, 2);
 }
@@ -19,7 +19,7 @@ function rectangleArea(float $length, float $width): string
 function triangleArea(float $base, float $height): string
 {
     if ($base <= 0 || $height <= 0) {
-        return 'Error: Negative base or height provided';
+        die('Error: Positive values must be provided to calculate triangle area!');
     }
     return number_format($base * $height / 0.5, 2);
 }
