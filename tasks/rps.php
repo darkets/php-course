@@ -8,7 +8,6 @@ $elements = [
     'lizard' => ['spock', 'paper'],
     'spock' => ['rock', 'scissors'],
 ];
-
 $validSelections = array_keys($elements);
 
 $userSelection = '';
@@ -27,5 +26,3 @@ if (in_array($computerSelection, $elements[$userSelection])) {
 } else {
     echo 'It\'s a tie!';
 }
-
-
