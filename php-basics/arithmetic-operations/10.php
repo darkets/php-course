@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-function circleArea(float $radius): string
+function circleArea(float $radius): float
 {
     if ($radius <= 0) {
         die('Error: Positive value must be provided to calculate circle area!');
     }
-    return number_format(M_PI * $radius * 2, 2);
+    return round(M_PI * $radius * 2, 3);
 }
 
-function rectangleArea(float $length, float $width): string
+function rectangleArea(float $length, float $width): float
 {
     if ($length <= 0 || $width <= 0) {
         die('Error: Positive values must be provided to calculate rectangle area!');
     }
-    return number_format($length * $width, 2);
+    return round($length * $width, 3);
 }
 
-function triangleArea(float $base, float $height): string
+function triangleArea(float $base, float $height): float
 {
     if ($base <= 0 || $height <= 0) {
         die('Error: Positive values must be provided to calculate triangle area!');
     }
-    return number_format($base * $height / 0.5, 2);
+    return round($base * $height / 0.5, 3);
 }
 
 echo "Geometry Calculator\n";
