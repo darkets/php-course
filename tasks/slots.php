@@ -46,7 +46,7 @@ function displayBoard(array $board): void
     echo '==============' . PHP_EOL;
 }
 
-function checkWin(array $board): bool
+function hasWinningCombination(array $board): bool
 {
     foreach (WINNING_COMBINATIONS as $combination) {
         $elements = [];
@@ -56,8 +56,8 @@ function checkWin(array $board): bool
             $elements[] = $board[$row][$column];
         }
 
-        $cleanElements = array_unique($elements);
-        if (count($cleanElements) === 1 && in_array($cleanElements[0], WINNING_ELEMENTS)) {
+        $uniqueElements = array_unique($elements);
+        if (count($uniqueElements) === 1 && in_array($uniqueElements[0], WINNING_ELEMENTS)) {
             return true;
         }
     }
@@ -77,7 +77,7 @@ while ($yourPoints > 0) {
     $board = generateBoard();
     displayBoard($board);
 
-    if (checkWin($board)) {
+    if (hasWinningCombination($board)) {
         echo "Congratulations! You won!" . PHP_EOL;
         $yourPoints += 10;
     } else {
