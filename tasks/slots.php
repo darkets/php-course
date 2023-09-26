@@ -9,17 +9,12 @@
 const MAX_ROWS = 3;
 const MAX_COLUMNS = 4;
 
-$a = 'x';
-$b = 'o';
-$c = '7';
-
-$elements = [
-    $a, $b, $c
+const ELEMENTS = [
+    'x', 'o', '7',
 ];
+const WINNING_ELEMENTS = ['7'];
 
-$winningElements = [$c];
-
-$winningCombinations = [
+const WINNING_COMBINATIONS = [
     [0, 1, 2, 3],
     [0, 1, 2, 7],
     [4, 1, 2, 3],
@@ -28,14 +23,14 @@ $winningCombinations = [
     [8, 5, 6, 7],
 ];
 
-function generateBoard(array $elements): array
+function generateBoard(): array
 {
     $board = [];
     for ($row = 0; $row < MAX_ROWS; $row++) {
         $board[$row] = [];
 
         for ($column = 0; $column < MAX_COLUMNS; $column++) {
-            $board[$row][] = $elements[array_rand($elements)];
+            $board[$row][] = ELEMENTS[array_rand(ELEMENTS)];
         }
     }
 
@@ -51,9 +46,9 @@ function displayBoard(array $board): void
     echo '==============' . PHP_EOL;
 }
 
-function checkWin(array $board, array $winningCombinations, array $winningElements): bool
+function checkWin(array $board): bool
 {
-    foreach ($winningCombinations as $combination) {
+    foreach (WINNING_COMBINATIONS as $combination) {
         $elements = [];
         foreach ($combination as $index) {
             $row = floor($index / MAX_COLUMNS);
@@ -62,7 +57,7 @@ function checkWin(array $board, array $winningCombinations, array $winningElemen
         }
 
         $cleanElements = array_unique($elements);
-        if (count($cleanElements) === 1 && in_array($cleanElements[0], $winningElements)) {
+        if (count($cleanElements) === 1 && in_array($cleanElements[0], WINNING_ELEMENTS)) {
             return true;
         }
     }
@@ -79,10 +74,10 @@ while ($yourPoints > 0) {
 
     $yourPoints--;
 
-    $board = generateBoard($elements);
+    $board = generateBoard();
     displayBoard($board);
 
-    if (checkWin($board, $winningCombinations, $winningElements)) {
+    if (checkWin($board)) {
         echo "Congratulations! You won!" . PHP_EOL;
         $yourPoints += 10;
     } else {
