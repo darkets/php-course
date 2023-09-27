@@ -4,7 +4,7 @@ const API_KEY = '04636b245be698e20d32a0fad56f9a9c';
 
 function getLatLon(string $location): array
 {
-    $url = sprintf("https://api.openweathermap.org/geo/1.0/direct?q=%s&appid=%s", $location, API_KEY);
+    $url = "https://api.openweathermap.org/geo/1.0/direct?q=$location&appid=" . API_KEY;
     $json = file_get_contents($url);
 
     $data = json_decode($json, true);
