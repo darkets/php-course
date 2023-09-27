@@ -1,21 +1,15 @@
 <?php
 
-$ch = curl_init();
+$url = 'https://rickandmortyapi.com/api/episode';
+$json = file_get_contents($url);
 
-curl_setopt($ch, CURLOPT_URL, "https://rickandmortyapi.com/api/episode");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$data = json_decode($json, true);
 
-$response = curl_exec($ch);
-
-curl_close($ch);
-
-$data = json_decode($response, true);
-
-if (!empty($data)) {
+if ($data) {
     foreach ($data['results'] as $episode) {
-        echo "Episode Name: " . $episode['name'] . "<br>";
-        echo "Episode ID: " . $episode['id'] . "<br>";
-        echo "Air Date: " . $episode['air_date'] . "<br>";
-        echo "------------------------------------------<br>";
+        echo "Episode Name: {$episode['name']}" . PHP_EOL;
+        echo "Episode ID: {$episode['id']}" . PHP_EOL;
+        echo "Air Date: {$episode['air_date']}" . PHP_EOL;
+        echo '------------------------------------------' . PHP_EOL;
     }
 }
