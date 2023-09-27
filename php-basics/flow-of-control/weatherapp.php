@@ -20,7 +20,7 @@ function getLatLon(string $location): array
 
 function getWeatherData(float $lat, float $lon): array
 {
-    $url = sprintf('https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s', $lat, $lon, API_KEY);
+    $url = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&appid=" . API_KEY;
     $json = file_get_contents($url);
 
     return json_decode($json, true);
