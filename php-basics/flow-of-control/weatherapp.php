@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-const API_KEY = '04636b245be698e20d32a0fad56f9a9c';
+const API_KEY = 'Put your API key here';
 
 function getLatLon(string $location): array
 {
