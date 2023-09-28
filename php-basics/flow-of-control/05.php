@@ -2,57 +2,25 @@
 
 $input = strtolower(readline('Enter a string: '));
 
-$convertedInput = "";
-for ($i = 0; $i < strlen($input); $i++) {
-    $char = $input[$i];
+$charToSequence = [
+    'a' => '2', 'b' => '22', 'c' => '222',
+    'd' => '3', 'e' => '33', 'f' => '333',
+    'g' => '4', 'h' => '44', 'i' => '444',
+    'j' => '5', 'k' => '55', 'l' => '555',
+    'm' => '6', 'n' => '66', 'o' => '666',
+    'p' => '7', 'q' => '77', 'r' => '777', 's' => '7777',
+    't' => '8', 'u' => '88', 'v' => '888',
+    'w' => '9', 'x' => '99', 'y' => '999', 'z' => '9999',
+];
 
-    switch ($char) {
-        case 'a':
-        case 'b':
-        case 'c':
-            $convertedInput .= '2';
-            break;
-        case 'd':
-        case 'e':
-        case 'f':
-            $convertedInput .= '3';
-            break;
-        case 'g':
-        case 'h':
-        case 'i':
-            $convertedInput .= '4';
-            break;
-        case 'j':
-        case 'k':
-        case 'l':
-            $convertedInput .= '5';
-            break;
-        case 'm':
-        case 'n':
-        case 'o':
-            $convertedInput .= '6';
-            break;
-        case 'p':
-        case 'q':
-        case 'r':
-        case 's':
-            $convertedInput .= '7';
-            break;
-        case 't':
-        case 'u':
-        case 'v':
-            $convertedInput .= '8';
-            break;
-        case 'w':
-        case 'x':
-        case 'y':
-        case 'z':
-            $convertedInput .= '9';
-            break;
-        default:
-            $convertedInput .= $i;
-            break;
+$convertedInput = "";
+$prevChar = '';
+foreach (str_split($input) as $char) {
+    if ($char === $prevChar) {
+        $convertedInput .= ' ';
     }
+    $convertedInput .= ($charToSequence[$char] ?? $char) . ' ';
+    $prevChar = $char;
 }
 
-echo 'Converted input: ' . $convertedInput;
+echo 'Converted input: ' . $convertedInput . PHP_EOL;
