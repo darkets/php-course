@@ -1,23 +1,59 @@
-<?php declare(strict_types=1);
+<?php
 
+// Board conf
+const ROWS = 3;
+const COLUMNS = ROWS;
+const BOARD_SIZE = ROWS * COLUMNS;
+
+// Game conf
 const PLAYER_SYMBOL = 'O';
 const PC_SYMBOL = PLAYER_SYMBOL === 'X' ? 'O' : 'X';
-const BOARD_SIZE = 9;
 
-$board = array_fill(0, BOARD_SIZE, ' ');
+const WINNING_COMBINATIONS = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
+];
 
-function displayBoard(array $board): void
+$gameBoard = [];
+for ($row = 0; $row < ROWS; $row++) {
+    $gameBoard[$row] = array_fill(0, COLUMNS, ' ');
+}
+
+function displayGameBoard($board)
 {
-    echo " $board[0] | $board[1] | $board[2]" . PHP_EOL;
-    echo '---+---+---' . PHP_EOL;
-    echo " $board[3] | $board[4] | $board[5]" . PHP_EOL;
-    echo '---+---+---' . PHP_EOL;
-    echo " $board[6] | $board[7] | $board[8]" . PHP_EOL;
+    foreach ($board as $index => $row) {
+        echo ' ' . implode(' | ', $row) . ' ' . PHP_EOL;
+        if ($index + 1 !== ROWS) echo '---+---+---' . PHP_EOL;
+    }
+}
+
+function getRow($move): int
+{
+    return floor($move / ROWS);
+}
+
+function getColumn(int $move): int
+{
+    return $move % COLUMNS;
 }
 
 function isMoveValid(array $board, int $move): bool
 {
-    return $move >= 0 && $move < BOARD_SIZE && $board[$move] === ' ';
+    $row = getRow($move);
+    $column = getColumn($move);
+
+    $positionValue = $board[$row][$column];
+
+    return $move >= 0 && $move < BOARD_SIZE && $positionValue === ' ';
+}
+
+function makeMove($move, &$board)
+{
+    $row = getRow($move);
+    $column = getColumn($move);
+
+    $board[$row][$column] = PLAYER_SYMBOL;
 }
 
 function makeComputerMove(array &$board): void
@@ -26,47 +62,53 @@ function makeComputerMove(array &$board): void
         $move = rand(0, BOARD_SIZE - 1);
     } while (!isMoveValid($board, $move));
 
-    $board[$move] = PC_SYMBOL;
+    $row = getRow($move);
+    $column = getColumn($move);
+
+    $board[$row][$column] = PC_SYMBOL;
 }
 
-function getGameWinner(array $board): string
+function getGameWinner($board)
 {
-    $winningCombinations = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8],
-        [0, 3, 6], [1, 4, 7], [2, 5, 8],
-        [0, 4, 8], [2, 4, 6]
-    ];
+    foreach (WINNING_COMBINATIONS as $combination) {
+        $elements = [];
+        foreach ($combination as $index) {
+            $row = getRow($index);
+            $column = getColumn($index);
 
-    foreach ($winningCombinations as $combination) {
-        [$a, $b, $c] = $combination;
-        if ($board[$a] === $board[$b] && $board[$b] === $board[$c] && $board[$a] !== ' ') {
-            return $board[$a];
+            $pos = $board[$row][$column];
+            if (!empty(trim($pos))) {
+                $elements[] = $board[$row][$column];
+            }
         }
+
+        $uniqueElements = array_unique($elements);
+        if (count($uniqueElements) === 1 && count($elements) === ROWS) return $uniqueElements[0];
     }
 
-    if (!in_array(' ', $board)) {
-        return 'tie';
+    foreach ($board as $row) {
+        $isNotTie = in_array(' ', $row);
     }
 
-    return '';
+    return $isNotTie ? '' : 'tie';
 }
 
 while (true) {
-    displayBoard($board);
+    displayGameBoard($gameBoard);
 
     $move = (int)readline('Your move (1-9): ');
     $move--;
 
-    if (isMoveValid($board, $move)) {
-        $board[$move] = PLAYER_SYMBOL;
-        $gameWinner = getGameWinner($board);
+    if (isMoveValid($gameBoard, $move)) {
+        makeMove($move, $gameBoard);
+        $gameWinner = getGameWinner($gameBoard);
 
         if ($gameWinner) {
             break;
         }
 
-        makeComputerMove($board);
-        $gameWinner = getGameWinner($board);
+        makeComputerMove($gameBoard);
+        $gameWinner = getGameWinner($gameBoard);
 
         if ($gameWinner) {
             break;
@@ -77,7 +119,7 @@ while (true) {
 }
 
 echo '===============' . PHP_EOL;
-displayBoard($board);
+displayGameBoard($gameBoard);
 echo '===============' . PHP_EOL;
 
 if ($gameWinner === PLAYER_SYMBOL) {
@@ -87,3 +129,4 @@ if ($gameWinner === PLAYER_SYMBOL) {
 } else {
     echo 'The game is a tie!' . PHP_EOL;
 }
+
