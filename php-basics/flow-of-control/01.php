@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
 
 echo "Input the 1st number: ";
-$x = (int)readline();
+$x = readline();
 
 echo "Input the 2nd number: ";
-$y = (int)readline();
+$y = readline();
 
 echo "Input the 3rd number: ";
-$z = (int)readline();
+$z = readline();
+
+if (!is_numeric($x) || !is_numeric($y) || !is_numeric($z)) die('One or more inputs weren\'t a number!');
 
 $largestNum = max($x, $y, $z);
 

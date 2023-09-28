@@ -3,7 +3,8 @@
 // Write a program which prints “Sunday”, “Monday”, ... “Saturday” if the int variable "dayNumber" is 0, 1,
 // ..., 6, respectively. Otherwise, it shall print "Not a valid day".
 
-$dayNumber = (int)readline('Day number: ');
+$dayNumber = readline('Day number: ');
+if (!is_numeric($dayNumber)) die('Please input a number!');
 
 switch ($dayNumber) {
     case 0:
@@ -34,7 +35,7 @@ switch ($dayNumber) {
 
 // Alternative risinājums izmantojot masīvu
 
-// $days = ['Sunday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Monday'];
+//$days = ['Sunday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Monday'];
 
 //if (array_key_exists($dayNumber, $days)) {
 //    echo "The day corresponding to the day number $dayNumber is {$days[$dayNumber]}";
