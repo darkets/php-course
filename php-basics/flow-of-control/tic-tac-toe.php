@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // Board conf
 const ROWS = 3;
@@ -28,7 +28,7 @@ function displayGameBoard($board)
     }
 }
 
-function getRow($move): int
+function getRow($move): float
 {
     return floor($move / ROWS);
 }
