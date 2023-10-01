@@ -2,26 +2,38 @@
 
 class Ascii
 {
-    const SIZE = 4;
+    const SIZE = 3;
 
-    public static function AsciiFigure(): void
+    public static function asciiFigure(): void
     {
         $size = self::SIZE;
+        $rowLength = ($size - 1) * 8;
 
         for ($i = 0; $i < $size; $i++) {
-            for ($j = 0; $j < $size - $i; $j++) {
-                echo '/';
+            $slashes = "";
+            $asterisks = "";
+            $backslashes = "";
+
+            for ($j = 0; $j < ($rowLength / 2 - $i * 4); $j++) {
+                $slashes .= "/";
             }
-            for ($j = 0; $j < 2 * $i; $j++) {
-                echo '*';
+
+            for ($j = 0; $j < ($i * 8); $j++) {
+                $asterisks .= "*";
             }
-            for ($j = 0; $j < $size - $i; $j++) {
-                echo '\\';
+
+            for ($j = 0; $j < ($rowLength / 2 - $i * 4); $j++) {
+                $backslashes .= "\\";
             }
-            echo PHP_EOL;
+
+//            $slashes = str_repeat("/", ($rowLength / 2 - $i * 4));
+//            $asterisks = str_repeat("*", ($i * 8));
+//            $backslashes = str_repeat("\\", ($rowLength / 2 - $i * 4));
+
+            echo $slashes . $asterisks . $backslashes . PHP_EOL;
         }
     }
 }
 
-Ascii::AsciiFigure();
+Ascii::asciiFigure();
 
