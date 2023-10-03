@@ -4,7 +4,7 @@ require_once 'php-basics/classes-and-objects/03/FuelGauge.php';
 require_once 'php-basics/classes-and-objects/03/Odometer.php';
 
 $carFuelGauge = new FuelGauge(rand(55, 65));
-$carOdometer = new Odometer(rand(100000, 900000));
+$carOdometer = new Odometer(rand(100000, 900000), $carFuelGauge);
 
 echo 'Refueling Vehicle...' . PHP_EOL;
 
@@ -18,19 +18,12 @@ for ($i = $currentFuel; $i < 70; $i++) {
 
 echo 'Refueling done. Let\'s go for a ride!' . PHP_EOL;
 
-$kilometersDriven = 0;
 while ($carFuelGauge->getFuel() > 0) {
     usleep(2 * 100000);
 
-    $kilometersDriven++;
-    $carOdometer->addMileage();
+    $carOdometer->incrementMileage();
 
-    if ($kilometersDriven % 10 === 0) {
-        $carFuelGauge->removeFuel();
-    }
-
-    echo "Kilometers driven: $kilometersDriven" . PHP_EOL;
-    echo "Odometer reading: {$carOdometer->getMileage()}km" . PHP_EOL;
+    echo "Mileage: {$carOdometer->getMileage()}km" . PHP_EOL;
     echo "Fuel: {$carFuelGauge->getFuel()}l" . PHP_EOL;
 }
 

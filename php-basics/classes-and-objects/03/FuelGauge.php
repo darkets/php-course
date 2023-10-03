@@ -24,7 +24,7 @@ class FuelGauge
         $this->fuel++;
     }
 
-    public function removeFuel(): void
+    public function decrementFuel(): void
     {
         if ($this->fuel === 0) {
             return;
