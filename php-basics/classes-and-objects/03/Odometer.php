@@ -3,6 +3,7 @@
 class Odometer
 {
     const MAX_MILEAGE = 999999;
+
     private int $mileage;
     private FuelGauge $fuelGauge;
 
@@ -17,11 +18,11 @@ class Odometer
         return $this->mileage;
     }
 
-    public function incrementMileage()
+    public function incrementMileage(): void
     {
         $this->mileage++;
 
-        if ($this->mileage > $this::MAX_MILEAGE) {
+        if ($this->mileage > self::MAX_MILEAGE) {
             $this->mileage = 0;
         }
 

@@ -3,6 +3,7 @@
 class FuelGauge
 {
     const MAX_FUEL = 70;
+
     private int $fuel;
 
     public function __construct($fuel)
@@ -17,7 +18,7 @@ class FuelGauge
 
     public function addFuel(): void
     {
-        if ($this->fuel === $this::MAX_FUEL) {
+        if ($this->fuel === self::MAX_FUEL) {
             return;
         }
 
