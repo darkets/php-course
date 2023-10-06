@@ -7,13 +7,13 @@ class EnergyDrinkSurvey
     const PREFER_CITRUS_DRINKS = 0.64;
 
 
-    public static function calculate_energy_drinkers(float $percentage = self::PURCHASED_ENERGY_DRINKS): float
+    public static function calculateEnergyDrinkers(float $percentage = self::PURCHASED_ENERGY_DRINKS): float
     {
         return round(self::PEOPLE_SURVEYED * $percentage);
     }
 
-    public static function calculate_prefer_citrus(): float
+    public static function calculatePreferCitrus(): float
     {
-        return round(self::calculate_energy_drinkers(self::PREFER_CITRUS_DRINKS) * self::PURCHASED_ENERGY_DRINKS);
+        return round(self::calculateEnergyDrinkers(self::PREFER_CITRUS_DRINKS) * self::PURCHASED_ENERGY_DRINKS);
     }
 }
