@@ -32,3 +32,16 @@ class Product
         echo '---------------' . PHP_EOL;
     }
 }
+
+$mouse = new Product('Logitech mouse', 70.00, 14);
+$phone = new Product('iPhone 5s', 999.99, 3);
+$projector = new Product('Epson EB-U05', 440.46, 1);
+
+$mouse->printProduct();
+$phone->printProduct();
+$projector->printProduct();
+
+$mouse->setPrice(75.00);
+$mouse->setAmount(20);
+
+$mouse->printProduct();

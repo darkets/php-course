@@ -17,3 +17,9 @@ class EnergyDrinkSurvey
         return round(self::calculateEnergyDrinkers(self::PREFER_CITRUS_DRINKS) * self::PURCHASED_ENERGY_DRINKS);
     }
 }
+
+$surveyed = EnergyDrinkSurvey::PEOPLE_SURVEYED;
+
+echo 'Total number of people surveyed: ' . $surveyed . PHP_EOL;
+echo 'Approximately ' . EnergyDrinkSurvey::calculateEnergyDrinkers() . ' bought at least one energy drink.' . PHP_EOL;
+echo EnergyDrinkSurvey::calculatePreferCitrus() . ' of those prefer citrus flavored energy drinks.' . PHP_EOL;
