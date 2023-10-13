@@ -35,12 +35,17 @@ class Episode
         $this->ratings[] = $rating;
     }
 
-    public function getRating(): float
+    public function getAverageRating(): float
     {
         if (empty($this->ratings)) {
             return 0;
         }
         return array_sum($this->ratings) / count($this->ratings);
+    }
+
+    public function getRatings(): array
+    {
+        return $this->ratings;
     }
 }
 
@@ -102,8 +107,8 @@ class VideoStore
 
         foreach ($ratings as $rating) {
             $episode = $this->inventory[$rating['id'] - 1];
-            if (isset($rating['rating'])) {
-                $episode->setRating((int)$rating['rating']);
+            foreach ($rating['ratings'] as $value) {
+                $episode->setRating($value);
             }
         }
     }
@@ -112,9 +117,10 @@ class VideoStore
     {
         $ratings = [];
         foreach ($this->inventory as $episode) {
+            /** @var Episode $episode */
             $ratings[] = [
                 'id' => $episode->getId(),
-                'rating' => $episode->getRating(),
+                'ratings' => $episode->getRatings(),
             ];
         }
         file_put_contents('data.json', json_encode($ratings));
@@ -164,7 +170,7 @@ class Application
 
         foreach ($episodes as $episode) {
             /** @var Episode $episode */
-            $rating = $episode->getRating();
+            $rating = $episode->getAverageRating();
             if ($rating < 1) {
                 $rating = 'Not rated';
             }
