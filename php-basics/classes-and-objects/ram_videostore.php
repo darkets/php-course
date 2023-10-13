@@ -1,16 +1,17 @@
 <?php declare(strict_types=1);
 
+
 class Episode
 {
     private int $id;
-    private string $name;
+    private string $title;
     private string $episodeNumber;
-    private array $ratings;
+    private array $ratings = [];
 
-    public function __construct(int $id, string $name, string $episodeNumber)
+    public function __construct(int $id, string $title, string $episodeNumber)
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->title = $title;
         $this->episodeNumber = $episodeNumber;
     }
 
@@ -19,14 +20,19 @@ class Episode
         return $this->id;
     }
 
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
 
     public function getEpisodeNumber(): string
     {
         return $this->episodeNumber;
+    }
+
+    public function setRating(int $rating): void
+    {
+        $this->ratings[] = $rating;
     }
 
     public function getRating(): float
@@ -36,24 +42,32 @@ class Episode
         }
         return array_sum($this->ratings) / count($this->ratings);
     }
-
-    public function setRating(int $rating): void
-    {
-        if ($rating >= 1 && $rating <= 10) {
-            $this->ratings[] = $rating;
-        }
-    }
-
 }
 
 class VideoStore
 {
     private string $name;
-    private array $episodes = [];
+    private array $inventory = [];
 
     public function __construct(string $name)
     {
         $this->name = $name;
+
+        $url = 'https://rickandmortyapi.com/api/episode';
+        $page = 1;
+
+        do {
+            $data = json_decode(file_get_contents($url . '?page=' . $page), true);
+            foreach ($data['results'] as $episodeData) {
+                $episode = new Episode(
+                    $episodeData['id'],
+                    $episodeData['name'],
+                    $episodeData['episode'],
+                );
+                $this->inventory[] = $episode;
+            }
+            $page++;
+        } while ($page !== 4);
     }
 
     public function getName(): string
@@ -61,19 +75,14 @@ class VideoStore
         return $this->name;
     }
 
-    public function addEpisode(Episode $episode): void
+    public function getInventory(): array
     {
-        $this->episodes[] = $episode;
-    }
-
-    public function getEpisodes(): array
-    {
-        return $this->episodes;
+        return $this->inventory;
     }
 
     public function getEpisodeById(int $id): ?Episode
     {
-        foreach ($this->episodes as $episode) {
+        foreach ($this->inventory as $episode) {
             /** @var Episode $episode */
             if ($episode->getId() === $id) {
                 return $episode;
@@ -82,33 +91,33 @@ class VideoStore
 
         return null;
     }
-}
 
-class RickAndMortyAPI
-{
-    private const API_URL = 'https://rickandmortyapi.com/api/episode';
-
-    public static function fetchAllEpisodes(): array
+    public function loadRatings(): void
     {
-        $episodes = [];
-        $page = 1;
+        if (!file_exists('data.json')) {
+            return;
+        }
 
-        do {
-            $data = json_decode(file_get_contents(self::API_URL . '?page=' . $page), true);
-            foreach ($data['results'] as $episodeData) {
-                $episode = new Episode(
-                    $episodeData['id'],
-                    $episodeData['name'],
-                    $episodeData['episode'],
-                );
+        $ratings = json_decode(file_get_contents('data.json'), true);
 
-                $episodes[] = $episode;
+        foreach ($ratings as $rating) {
+            $episode = $this->inventory[$rating['id'] - 1];
+            if (isset($rating['rating'])) {
+                $episode->setRating((int)$rating['rating']);
             }
+        }
+    }
 
-            $page++;
-        } while ($page !== 4);
-
-        return $episodes;
+    public function saveRating(): void
+    {
+        $ratings = [];
+        foreach ($this->inventory as $episode) {
+            $ratings[] = [
+                'id' => $episode->getId(),
+                'rating' => $episode->getRating(),
+            ];
+        }
+        file_put_contents('data.json', json_encode($ratings));
     }
 }
 
@@ -116,14 +125,16 @@ class Application
 {
     private VideoStore $store;
 
+    public function __construct()
+    {
+        $this->store = new VideoStore('Rick And Morty Video Store');
+        $this->store->loadRatings();
+    }
+
     public function run(): void
     {
-        $this->initialize();
-
-        $store = $this->store;
-
         while (true) {
-            echo "Welcome to {$store->getName()}" . PHP_EOL;
+            echo "Welcome to {$this->store->getName()}" . PHP_EOL;
             echo 'Choose the operation you want to perform' . PHP_EOL;
             echo 'Choose 0 for EXIT' . PHP_EOL;
             echo 'Choose 1 to list episodes' . PHP_EOL;
@@ -147,19 +158,9 @@ class Application
         }
     }
 
-    private function initialize()
-    {
-        $this->store = new VideoStore('Rick and Morty Video Store');
-
-        $episodes = RickAndMortyAPI::fetchAllEpisodes();
-        foreach ($episodes as $episode) {
-            $this->store->addEpisode($episode);
-        }
-    }
-
     private function displayEpisodes(): void
     {
-        $episodes = $this->store->getEpisodes();
+        $episodes = $this->store->getInventory();
 
         foreach ($episodes as $episode) {
             /** @var Episode $episode */
@@ -170,7 +171,7 @@ class Application
 
             echo "ID: {$episode->getId()}" . PHP_EOL;
             echo "Episode: {$episode->getEpisodeNumber()}" . PHP_EOL;
-            echo "Name: {$episode->getName()}" . PHP_EOL;
+            echo "Name: {$episode->getTitle()}" . PHP_EOL;
             echo "Rating: $rating" . PHP_EOL;
             echo '-------------------------' . PHP_EOL;
         }
@@ -203,11 +204,12 @@ class Application
         }
 
         echo '--------------' . PHP_EOL;
-        echo 'You gave a rating of ' . $rating . ' to episode ' . $episode->getName() . PHP_EOL;
+        echo 'You gave a rating of ' . $rating . ' to episode ' . $episode->getTitle() . PHP_EOL;
         echo '--------------' . PHP_EOL;
         $episode->setRating((int)$rating);
+        $this->store->saveRating();
     }
 }
 
-$application = new Application();
-$application->run();
+$app = new Application;
+$app->run();
