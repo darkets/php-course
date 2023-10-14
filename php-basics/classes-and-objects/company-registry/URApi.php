@@ -7,7 +7,7 @@ class URApi
     const API_URL = 'https://data.gov.lv/dati/lv/api/3/action/datastore_search';
     const RESOURCE_ID = '25e80bf3-f107-4ab4-89ef-251b5b9374e9';
 
-    public static function getCompany(string $identifier): ?array
+    public static function getCompanies(string $identifier): ?array
     {
         $query = http_build_query([
             'q' => $identifier,

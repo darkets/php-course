@@ -19,7 +19,7 @@ class Application
                 continue;
             }
 
-            $data = URApi::getCompany($identifier);
+            $data = URApi::getCompanies($identifier);
 
             if ($data === null) {
                 echo 'No company found with this identifier!' . PHP_EOL;
